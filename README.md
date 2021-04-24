@@ -1,7 +1,7 @@
 ## TA-Project
 A Python program which performs technical analysis on stocks.
 ## Setup
-* Clone the repository from https://github.com/Alpha249/TA-Project
+* Clone the repository from https://github.com/Alpha249/TechnicalAnalysis.
 * Run `pip install -r requirements.txt` to install all the required dependencies.
 ## Usage
 * Run `python main.py` in the terminal and follow all the prompts.
