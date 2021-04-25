@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from ta.trend import ema_indicator
+import os
 
 plt.style.use('Solarize_Light2')
 
