@@ -9,12 +9,12 @@ from RSI import RSIndex
 
 logging.basicConfig(filename='logs.log', filemode='a', format='%(levelname)s - %(asctime)s: %(message)s')
 logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
-def EMASignal(ticker_ema):
+def EMASignal(ticker_ema, period, interval):
     ticker = yf.Ticker(f"{ticker_ema}.NS")
-    stock_df = ticker.history(period='1y', interval='1d')
+    stock_df = ticker.history(period=period, interval=interval)
 
     df = pd.DataFrame()
     df['Close'] = EMAvg(close=stock_df['Close'], window_long=50, window_short=20)[0]
@@ -32,9 +32,9 @@ def EMASignal(ticker_ema):
             return 'Hold'
 
 
-def BBSignal(ticker_bb):
+def BBSignal(ticker_bb, period, interval):
     ticker = yf.Ticker(f"{ticker_bb}.NS")
-    stock_df = ticker.history(period='1y', interval='1d')
+    stock_df = ticker.history(period=period, interval=interval)
 
     df = pd.DataFrame()
     df['Close'] = BBands(close=stock_df['Close'], window=20, deviation_1=1, deviation_2=2)[0]
@@ -52,9 +52,9 @@ def BBSignal(ticker_bb):
             return 'Hold'
 
 
-def RSISignal(ticker_rsi):
+def RSISignal(ticker_rsi, period, interval):
     ticker = yf.Ticker(f"{ticker_rsi}.NS")
-    stock_df = ticker.history(period='1y', interval='1d')
+    stock_df = ticker.history(period=period, interval=interval)
 
     df = pd.DataFrame()
     df['Close'] = RSIndex(close=stock_df['Close'], window=14)[0]

@@ -1,3 +1,4 @@
+import logging
 import os
 
 import matplotlib.pyplot as plt
@@ -10,11 +11,15 @@ from ta.volatility import BollingerBands
 
 plt.style.use('Solarize_Light2')
 
+logging.basicConfig(filename='logs.log', filemode='a', format='%(levelname)s - %(asctime)s: %(message)s')
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-def Plot(stock):
-    def PlotEMA(ticker, close, window_long, window_short):
+
+def Plot(stock, period, interval):
+    def PlotEMA(stock_ticker, close, window_long, window_short):
         try:
-            os.mkdir(ticker)
+            os.mkdir(stock_ticker)
         except:
             pass
         # Getting values of EMA from the `ta` module
@@ -49,20 +54,20 @@ def Plot(stock):
 
         plt.ylabel('Price in Rupees', fontsize=15)
         plt.xlabel('Date', fontsize=15)
-        plt.title(f'EMA Crossover: {ticker}', fontsize=20)
+        plt.title(f'EMA Crossover: {stock_ticker}', fontsize=20)
         plt.legend()
         plt.grid()
         try:
-            plt.savefig(f'image/{ticker}/EMA_{ticker}.png', bbox_inches='tight')
+            plt.savefig(f'image/{stock_ticker}/EMA_{stock_ticker}.png', bbox_inches='tight')
         except:
-            directory = f'image/{ticker}'
-            for f in os.listdir(ticker):
+            directory = f'image/{stock_ticker}'
+            for f in os.listdir(stock_ticker):
                 os.remove(os.path.join(directory, f))
-            plt.savefig(f'image/{ticker}/EMA_{ticker}.png', bbox_inches='tight')
+            plt.savefig(f'image/{stock_ticker}/EMA_{stock_ticker}.png', bbox_inches='tight')
 
-    def PlotRSI(ticker, close, window):
+    def PlotRSI(stock_ticker, close, window):
         try:
-            os.mkdir(ticker)
+            os.mkdir(stock_ticker)
         except:
             pass
         # Getting values of Relative Strength Index from the `ta` module
@@ -88,21 +93,21 @@ def Plot(stock):
         ax.plot(x_axis, df['RSI'], label="RSI")
         ax.legend()
 
-        plt.ylabel(f'RSI: {ticker}', fontsize=15)
+        plt.ylabel(f'RSI: {stock_ticker}', fontsize=15)
         plt.xlabel('Date', fontsize=15)
-        plt.title(f'Relative Strength Index: {ticker}', fontsize=20)
+        plt.title(f'Relative Strength Index: {stock_ticker}', fontsize=20)
         plt.legend()
         try:
-            plt.savefig(f'image/{ticker}/RSI_{ticker}.png', bbox_inches='tight')
+            plt.savefig(f'image/{stock_ticker}/RSI_{stock_ticker}.png', bbox_inches='tight')
         except:
-            directory = f'image/{ticker}'
-            for f in os.listdir(ticker):
+            directory = f'image/{stock_ticker}'
+            for f in os.listdir(stock_ticker):
                 os.remove(os.path.join(directory, f))
-            plt.savefig(f'image/{ticker}/RSI_{ticker}.png', bbox_inches='tight')
+            plt.savefig(f'image/{stock_ticker}/RSI_{stock_ticker}.png', bbox_inches='tight')
 
-    def PlotBB(ticker, close, window, deviation_1, deviation_2):
+    def PlotBB(stock_ticker, close, window, deviation_1, deviation_2):
         try:
-            os.mkdir(ticker)
+            os.mkdir(stock_ticker)
         except:
             pass
 
@@ -184,21 +189,24 @@ def Plot(stock):
 
         plt.ylabel('Price', fontsize=15)
         plt.xlabel('Date', fontsize=15)
-        plt.title(f'Bollinger Bands {ticker}', fontsize=20)
+        plt.title(f'Bollinger Bands {stock_ticker}', fontsize=20)
         plt.legend()
         plt.grid()
         try:
-            plt.savefig(f'image/{ticker}/BB_{ticker}.png', bbox_inches='tight')
+            plt.savefig(f'image/{stock_ticker}/BB_{stock_ticker}.png', bbox_inches='tight')
         except:
-            directory = f'image/{ticker}'
-            for f in os.listdir(ticker):
+            directory = f'image/{stock_ticker}'
+            for f in os.listdir(stock_ticker):
                 os.remove(os.path.join(directory, f))
-            plt.savefig(f'image/{ticker}/BB_{ticker}.png', bbox_inches='tight')
+            plt.savefig(f'image/{stock_ticker}/BB_{stock_ticker}.png', bbox_inches='tight')
 
 
-    ticker_ = yf.Ticker(f"{stock}.NS")
-    stock_df = ticker_.history(period='1y', interval='1d')
+    ticker = yf.Ticker(f"{stock}.NS")
+    stock_df = ticker.history(period=period, interval=interval)
 
-    PlotEMA(ticker=stock, close=stock_df['Close'], window_long=50, window_short=20)
-    PlotBB(ticker=stock, close=stock_df['Close'], window=20, deviation_1=1, deviation_2=2)
-    PlotRSI(ticker=stock, close=stock_df['Close'], window=14)
+
+    PlotEMA(stock_ticker=stock, close=stock_df['Close'], window_long=50, window_short=20)
+    PlotBB(stock_ticker=stock, close=stock_df['Close'], window=20, deviation_1=1, deviation_2=2)
+    PlotRSI(stock_ticker=stock, close=stock_df['Close'], window=14)
+    logger.info('Plotting has finished')
+

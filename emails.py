@@ -1,3 +1,4 @@
+import logging
 import os
 import smtplib
 import ssl
@@ -7,8 +8,12 @@ from email.mime.text import MIMEText
 
 from signals import EMASignal, BBSignal, RSISignal
 
+logging.basicConfig(filename='logs.log', filemode='a', format='%(levelname)s - %(asctime)s: %(message)s')
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
-def FireEmail(stock, signal, sender, receiver):
+
+def FireEmail(stock, signal, sender, receiver, period, interval):
     global server
     try:
         # Creating body of email
@@ -33,9 +38,9 @@ def FireEmail(stock, signal, sender, receiver):
         <br/>
         The parameter signals were passing:
         <ul>
-            <li>EMA: {EMASignal(stock)}</li>
-            <li>Bollinger Bands: {BBSignal(stock)}</li>
-            <li>RSI: {RSISignal(stock)}</li>
+            <li>EMA: {EMASignal(stock, period=period, interval=interval)}</li>
+            <li>Bollinger Bands: {BBSignal(stock, period=period, interval=interval)}</li>
+            <li>RSI: {RSISignal(stock, period=period, interval=interval)}</li>
         </ul>
         <br/>
         <br/>
@@ -68,6 +73,7 @@ def FireEmail(stock, signal, sender, receiver):
         server.sendmail(sender, receiver, text)
     except Exception as e:
         # Print any error messages to stdout
+        logger.error(f'Email could not be sent to {receiver}. Error: {e}')
         print(e)
     finally:
         server.close()

@@ -15,8 +15,16 @@ for o in portfolio:
     except:
         pass
 
+
 for i in portfolio:
-    Plot(i)
-    print(DeciderBuy(i))
-    print(DeciderSell(i))
-    print(DeciderHold(i))
+    try:
+        period = input('What is the period you want to analyze?[Check README.md for allowed inputs]: ')
+        interval = input('What is the interval for the period?[Check README.md for allowed inputs]: ')
+
+        Plot(i, period=period, interval=interval)
+        print(DeciderBuy(i, period=period, interval=interval))
+        print(DeciderSell(i, period=period, interval=interval))
+        print(DeciderHold(i, period=period, interval=interval))
+    except Exception as e:
+        print(f'The analysis did not succeed due to: {e}')
+        print('Check README.md for usage of the program!')
