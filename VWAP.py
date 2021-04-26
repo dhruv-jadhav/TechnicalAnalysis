@@ -1,10 +1,9 @@
+import os
+
 import matplotlib.pyplot as plt
 import pandas as pd
 from ta.trend import sma_indicator
 from ta.volume import volume_weighted_average_price
-import os
-
-plt.style.use('Solarize_Light2')
 
 
 def PlotVWAP(ticker, high, low, close, volume, window):
@@ -14,7 +13,8 @@ def PlotVWAP(ticker, high, low, close, volume, window):
         pass
 
     # Getting values of Volume Weighted Average Price from the `ta` module
-    VWAP = volume_weighted_average_price(high=high, low=low, close=close, volume=volume, window=int(window), fillna=False)
+    VWAP = volume_weighted_average_price(high=high, low=low, close=close, volume=volume, window=int(window),
+                                         fillna=False)
 
     # Creating DataFrame
     df = pd.DataFrame()

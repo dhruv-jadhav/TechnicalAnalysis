@@ -1,10 +1,5 @@
-import os
-
-import matplotlib.pyplot as plt
 import pandas as pd
 from ta.momentum import RSIIndicator
-
-plt.style.use('Solarize_Light2')
 
 
 def RSIndex(close, window):
@@ -24,5 +19,5 @@ def RSIndex(close, window):
     df.loc[df['RSI'] <= 35, 'Positions'] = 1
     df.loc[(df['RSI'] > 35) & (df['RSI'] < 65), 'Positions'] = 0
     df.loc[df['RSI'] >= 65, 'Positions'] = -1
-    
+
     return df['Close'], df['Positions']

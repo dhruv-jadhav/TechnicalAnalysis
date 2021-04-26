@@ -1,9 +1,18 @@
 # Performs technical analysis on stocks
-from executor import DeciderBuy, DeciderHold, DeciderSell
-from plots import Plot
 import os
+from time import perf_counter
 
-portfolio = ['ITC']
+from executor import DeciderBuy, DeciderHold, DeciderSell, TruncateStuff
+from plots import Plot
+
+TruncateStuff()
+
+# <---------------Stuff You Need to Define----------------->
+portfolio = ['ticker1', 'ticker2', 'ticker3...']  # Can handle any number of tickers
+email = 'abcxyz@gmail.com'  # Valid email
+period = ''  # Check README.md for valid inputs
+interval = ''  # Check README.md for valid inputs
+# <---------------Stuff You Need to Define----------------->
 
 for o in portfolio:
     try:
@@ -15,16 +24,18 @@ for o in portfolio:
     except:
         pass
 
-
 for i in portfolio:
     try:
-        period = input('What is the period you want to analyze?[Check README.md for allowed inputs]: ')
-        interval = input('What is the interval for the period?[Check README.md for allowed inputs]: ')
+        start = perf_counter()
 
         Plot(i, period=period, interval=interval)
-        print(DeciderBuy(i, period=period, interval=interval))
-        print(DeciderSell(i, period=period, interval=interval))
+        print(DeciderBuy(i, period=period, interval=interval, receiver=email))
+        print(DeciderSell(i, period=period, interval=interval, receiver=email))
         print(DeciderHold(i, period=period, interval=interval))
+
+        end = perf_counter()
+
+        print(f"\nThe analysis took: {end - start} seconds\n")
     except Exception as e:
         print(f'The analysis did not succeed due to: {e}')
-        print('Check README.md for usage of the program!')
+        print('Check README.md for the usage of the program!')

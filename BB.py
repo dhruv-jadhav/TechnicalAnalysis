@@ -1,12 +1,6 @@
-import os
-
-import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 from ta.trend import sma_indicator
 from ta.volatility import BollingerBands
-
-plt.style.use('Solarize_Light2')
 
 
 def get_signal(data):

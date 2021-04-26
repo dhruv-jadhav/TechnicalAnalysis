@@ -18,10 +18,7 @@ logger.setLevel(logging.INFO)
 
 def Plot(stock, period, interval):
     def PlotEMA(stock_ticker, close, window_long, window_short):
-        try:
-            os.mkdir(stock_ticker)
-        except:
-            pass
+
         # Getting values of EMA from the `ta` module
         EMA_Long = ema_indicator(close=close, window=int(window_long), fillna=False)
         EMA_Short = ema_indicator(close=close, window=int(window_short), fillna=False)
@@ -40,7 +37,7 @@ def Plot(stock, period, interval):
         df['Position'] = df['Signal'].diff()
 
         # Plot EMA's wrt Close price
-        plt.figure(figsize=(6, 5.5))
+        plt.figure(figsize=(7, 6))
         df['Close'].plot(color='k', lw=1, label='Close Price')
         df['EMA_Short'].plot(color='b', lw=1, label=f'{window_short}-period EMA')
         df['EMA_Long'].plot(color='g', lw=1, label=f'{window_long}-period EMA')
@@ -66,10 +63,6 @@ def Plot(stock, period, interval):
             plt.savefig(f'image/{stock_ticker}/EMA_{stock_ticker}.png', bbox_inches='tight')
 
     def PlotRSI(stock_ticker, close, window):
-        try:
-            os.mkdir(stock_ticker)
-        except:
-            pass
         # Getting values of Relative Strength Index from the `ta` module
         RSI = RSIIndicator(close=close, window=int(window), fillna=False)
 
@@ -80,7 +73,7 @@ def Plot(stock, period, interval):
         df['RSI'] = RSI.rsi().dropna()
 
         # Initialising matplotlib
-        fig = plt.figure(figsize=(6, 5.5))
+        fig = plt.figure(figsize=(7, 6))
 
         ax = fig.add_subplot(1, 1, 1)
         x_axis = df.index
@@ -106,11 +99,6 @@ def Plot(stock, period, interval):
             plt.savefig(f'image/{stock_ticker}/RSI_{stock_ticker}.png', bbox_inches='tight')
 
     def PlotBB(stock_ticker, close, window, deviation_1, deviation_2):
-        try:
-            os.mkdir(stock_ticker)
-        except:
-            pass
-
         def GetSignal(data):
             buy_signal = []  # buy list
             sell_signal = []  # sell list
@@ -155,7 +143,7 @@ def Plot(stock, period, interval):
         df['Buy'], df['Sell'] = GetSignal(df)
 
         # Initialising matplotlib
-        fig = plt.figure(figsize=(6, 5.5))
+        fig = plt.figure(figsize=(7, 6))
 
         ax = fig.add_subplot(1, 1, 1)
         x_axis = df.index
@@ -200,13 +188,10 @@ def Plot(stock, period, interval):
                 os.remove(os.path.join(directory, f))
             plt.savefig(f'image/{stock_ticker}/BB_{stock_ticker}.png', bbox_inches='tight')
 
-
     ticker = yf.Ticker(f"{stock}.NS")
     stock_df = ticker.history(period=period, interval=interval)
-
 
     PlotEMA(stock_ticker=stock, close=stock_df['Close'], window_long=50, window_short=20)
     PlotBB(stock_ticker=stock, close=stock_df['Close'], window=20, deviation_1=1, deviation_2=2)
     PlotRSI(stock_ticker=stock, close=stock_df['Close'], window=14)
     logger.info('Plotting has finished')
-
