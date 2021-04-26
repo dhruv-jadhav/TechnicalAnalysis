@@ -1,4 +1,10 @@
 ## Technical Analysis Project
+
+![GitHub repo size](https://img.shields.io/github/repo-size/Alpha249/TechnicalAnalysis)
+![GitHub top language](https://img.shields.io/github/languages/top/Alpha249/TechnicalAnalysis)
+![GitHub last commit](https://img.shields.io/github/last-commit/Alpha249/TechnicalAnalysis)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/Alpha249/TechnicalAnalysis)
+
 A Python program which performs technical analysis on stocks.
 
 ## Setup
@@ -8,7 +14,7 @@ A Python program which performs technical analysis on stocks.
 ## Usage
 * Open the `main.py` file in an IDE.
 * Add all your stock `tickers` in the `portfolio` variable.
-* Set your email for in the `email` variable for signal alerts.  
+* Set your email address in the `email` variable for signal alerts.  
 * Set the `period` variable to your desired period.
     * Allowed arguments for periods are: `“1d”, “5d”, “1mo”, “3mo”, “6mo”, “1y”, “2y”, “5y”, “10y”, “ytd”, “max”`
 * Set the `interval` variable to your desired interval.
