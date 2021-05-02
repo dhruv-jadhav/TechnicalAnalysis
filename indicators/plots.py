@@ -11,7 +11,7 @@ from ta.volatility import BollingerBands
 
 plt.style.use('Solarize_Light2')
 
-logging.basicConfig(filename='logs.log', filemode='a', format='%(levelname)s - %(asctime)s: %(message)s')
+logging.basicConfig(filename='../logs.log', filemode='a', format='%(levelname)s - %(asctime)s: %(message)s')
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -56,11 +56,13 @@ def Plot(stock, period, interval):
         plt.grid()
         try:
             plt.savefig(f'image/{stock_ticker}/EMA_{stock_ticker}.png', bbox_inches='tight')
+            plt.close('all')
         except:
             directory = f'image/{stock_ticker}'
             for f in os.listdir(stock_ticker):
                 os.remove(os.path.join(directory, f))
             plt.savefig(f'image/{stock_ticker}/EMA_{stock_ticker}.png', bbox_inches='tight')
+            plt.close('all')
 
     def PlotRSI(stock_ticker, close, window):
         # Getting values of Relative Strength Index from the `ta` module
@@ -92,11 +94,13 @@ def Plot(stock, period, interval):
         plt.legend()
         try:
             plt.savefig(f'image/{stock_ticker}/RSI_{stock_ticker}.png', bbox_inches='tight')
+            plt.close('all')
         except:
             directory = f'image/{stock_ticker}'
             for f in os.listdir(stock_ticker):
                 os.remove(os.path.join(directory, f))
             plt.savefig(f'image/{stock_ticker}/RSI_{stock_ticker}.png', bbox_inches='tight')
+            plt.close('all')
 
     def PlotBB(stock_ticker, close, window, deviation_1, deviation_2):
         def GetSignal(data):
@@ -182,11 +186,13 @@ def Plot(stock, period, interval):
         plt.grid()
         try:
             plt.savefig(f'image/{stock_ticker}/BB_{stock_ticker}.png', bbox_inches='tight')
+            plt.close('all')
         except:
             directory = f'image/{stock_ticker}'
             for f in os.listdir(stock_ticker):
                 os.remove(os.path.join(directory, f))
             plt.savefig(f'image/{stock_ticker}/BB_{stock_ticker}.png', bbox_inches='tight')
+            plt.close('all')
 
     ticker = yf.Ticker(f"{stock}.NS")
     stock_df = ticker.history(period=period, interval=interval)

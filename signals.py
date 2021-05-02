@@ -3,9 +3,9 @@ import logging
 import pandas as pd
 import yfinance as yf
 
-from BB import BBands
-from EMA import EMAvg
-from RSI import RSIndex
+from indicators.BB import BBands
+from indicators.EMA import EMAvg
+from indicators.RSI import RSIndex
 
 logging.basicConfig(filename='logs.log', filemode='a', format='%(levelname)s - %(asctime)s: %(message)s')
 logger = logging.getLogger()
